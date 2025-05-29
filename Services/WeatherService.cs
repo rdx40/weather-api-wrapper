@@ -15,7 +15,6 @@ namespace WeatherApiWrapper.Services
     {
         //a private variable to hold the HttpClient instance
         private readonly HttpClient _httpClient;
-        private const string ApiKey = "REPLACE_WITH_THINE_API_KEY"; // Replace with your actual key
 
         //constructor to initialize the HttpClient
         //this is where we inject the HttpClient dependency
@@ -26,9 +25,22 @@ namespace WeatherApiWrapper.Services
         public WeatherService(HttpClient httpClient, IConfiguration config)
         {
             _httpClient = httpClient;
-            _apiKey = config["WeatherApiKey"]!;
-        }
 
+            // Try to read from environment variable first
+            _apiKey = Environment.GetEnvironmentVariable("WEATHER_API_KEY");
+
+            // If not set in environment, fallback to appsettings.json
+            if (string.IsNullOrEmpty(_apiKey))
+            {
+                _apiKey = config["WeatherApiKey"];
+            }
+
+            // Throw if no API key is found anywhere — fail fast
+            if (string.IsNullOrEmpty(_apiKey))
+            {
+                throw new Exception("API key missing! Set WEATHER_API_KEY environment variable or add to appsettings.json");
+            }
+        }
         //async method to get weather data
         public async Task<WeatherResult?> GetWeatherAsync(string city)
         {
