@@ -4,11 +4,13 @@ using System.Net.Http;
 using System.Text.Json;
 //synchronous programming
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+
 
 //defines a namespace for the service(to organize the code)
 namespace WeatherApiWrapper.Services
 {
-    
+      
     public class WeatherService
     {
         //a private variable to hold the HttpClient instance
@@ -18,19 +20,20 @@ namespace WeatherApiWrapper.Services
         //constructor to initialize the HttpClient
         //this is where we inject the HttpClient dependency
         //this allows us to use the HttpClient for making requests
-        //the HttpClient is injected through the constructor
+        //the HttpClient is injected through the constructor   
 
-
-        public WeatherService(HttpClient httpClient)
+        private readonly string _apiKey;
+        public WeatherService(HttpClient httpClient, IConfiguration config)
         {
             _httpClient = httpClient;
+            _apiKey = config["WeatherApiKey"]!;
         }
 
         //async method to get weather data
         public async Task<WeatherResult?> GetWeatherAsync(string city)
         {
             //url for api request
-            var url = $"http://api.weatherapi.com/v1/current.json?key={ApiKey}&q={city}&aqi=no";
+            var url = $"http://api.weatherapi.com/v1/current.json?key={_apiKey}&q={city}&aqi=no";
 
             //sends get req
             var response = await _httpClient.GetAsync(url);

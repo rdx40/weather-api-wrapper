@@ -6,6 +6,14 @@ WORKDIR /app
 COPY . .
 RUN dotnet restore
 
+# --- Add the build argument ---
+ARG WEATHER_API_KEY
+
+
+# Inject the API key into appsettings.json
+RUN sed -i "s/\"WeatherApiKey\": *\"REPLACE_ME\"/\"WeatherApiKey\": \"${WEATHER_API_KEY}\"/" appsettings.json
+
+
 # Build and publish the app
 RUN dotnet publish -c Release -o out
 
