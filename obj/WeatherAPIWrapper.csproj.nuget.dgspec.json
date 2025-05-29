@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ivan\\Desktop\\WeatherAPIWrapper\\WeatherAPIWrapper.csproj": {}
+    "C:\\Users\\Ivan\\Desktop\\repos\\weather-api-wrapper\\WeatherAPIWrapper.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ivan\\Desktop\\WeatherAPIWrapper\\WeatherAPIWrapper.csproj": {
+    "C:\\Users\\Ivan\\Desktop\\repos\\weather-api-wrapper\\WeatherAPIWrapper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ivan\\Desktop\\WeatherAPIWrapper\\WeatherAPIWrapper.csproj",
+        "projectUniqueName": "C:\\Users\\Ivan\\Desktop\\repos\\weather-api-wrapper\\WeatherAPIWrapper.csproj",
         "projectName": "WeatherAPIWrapper",
-        "projectPath": "C:\\Users\\Ivan\\Desktop\\WeatherAPIWrapper\\WeatherAPIWrapper.csproj",
+        "projectPath": "C:\\Users\\Ivan\\Desktop\\repos\\weather-api-wrapper\\WeatherAPIWrapper.csproj",
         "packagesPath": "C:\\Users\\Ivan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ivan\\Desktop\\WeatherAPIWrapper\\obj\\",
+        "outputPath": "C:\\Users\\Ivan\\Desktop\\repos\\weather-api-wrapper\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Ivan\\AppData\\Roaming\\NuGet\\NuGet.Config"
