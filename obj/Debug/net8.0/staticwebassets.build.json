@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "Ir4BkZY1GweMYCzW5w2SFxIIXHHBP17OTHJXfgk4eNc=",
+  "Source": "WeatherAPIWrapper",
+  "BasePath": "_content/WeatherAPIWrapper",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
