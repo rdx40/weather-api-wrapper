@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-api
+  template:
+    metadata:
+      labels:
+        app: weather-api
+    spec:
+      containers:
+        - name: weather-api
+          image: acrcrg.azurecr.io/aspcoresample:1b214a811629ad5572caa8790bec50e805b660b4
+          ports:
+            - containerPort: 8080
+          env:
+            - name: WEATHER_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: weather-api-secret
+                  key: WEATHER_API_KEY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: weather-api
+  ports:
+    - port: 80
+      targetPort: 8080

@@ -13,6 +13,10 @@ using WeatherApiWrapper.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(80); // must match containerPort in YAML
+});
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient<WeatherService>(); // Add this line
