@@ -20,7 +20,7 @@
 - docker run -p 8080:8080 -e WEATHER_API_KEY=your_key acrcrg.azurecr.io/aspcoresample:1b214a811629ad5572caa8790bec50e805b660b4
 - Then as above head on over to a local browser and so and so
 
-### Now to test out the deployment via aks
+## Now to test out the deployment via aks
 
 - usually youd do this with admin permissions and run
 
