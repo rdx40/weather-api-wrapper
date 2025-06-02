@@ -30,7 +30,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/aspcoresample:${{ github.sha }}
+        tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/test:${{ github.sha }}
         file: Dockerfile
         build-args: |
           WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
