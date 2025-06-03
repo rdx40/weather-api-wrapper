@@ -16,7 +16,7 @@ spec:
         - name: weather-api
           image: acrcrg.azurecr.io/pushrun:2b4d5e854e766a2c1ae244c9b993ee2f1a7bdb4d
           ports:
-            - containerPort: 8080
+            - containerPort: 80
           env:
             - name: WEATHER_API_KEY
               valueFrom:
@@ -34,4 +34,4 @@ spec:
     app: weather-api
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 80
