@@ -48,3 +48,15 @@ kubectl port-forward svc/weather-api-service 8080:80
 ```
 
 got to the public ip and forward the query as before
+
+
+
+to stop the server temporarily scale to 0
+```bash
+ kubectl scale deployment weather-api --replicas=0
+```
+
+and to resume
+```bash
+kubectl scale deployment weather-api --replicas=1
+```
