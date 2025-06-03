@@ -30,7 +30,7 @@ namespace WeatherApiWrapper.Controllers
             var result = await _weatherService.GetWeatherAsync(city);
 
             if (result == null)
-                return NotFound("Weather data not found.");
+                return NotFound("Weather data has not been found.");
 
             return Ok(result);
         }
