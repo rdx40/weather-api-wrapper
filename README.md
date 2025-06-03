@@ -5,7 +5,7 @@
 - then in your terminal
 - docker build -t weather-api-wrapper .
 - docker run -p 8080:8080 weather-api-wrapper
-- then go to a browser and http://localhost:8080/weather?city=London or whatever city
+- then go to a browser and http://localhost:8080/weather?city=London or whcihever city youd like to check it out with
 
 ### for the azure container registry method
 
@@ -49,14 +49,14 @@ kubectl port-forward svc/weather-api-service 8080:80
 
 got to the public ip and forward the query as before
 
-
-
 to stop the server temporarily scale to 0
+
 ```bash
  kubectl scale deployment weather-api --replicas=0
 ```
 
 and to resume
+
 ```bash
 kubectl scale deployment weather-api --replicas=1
 ```
