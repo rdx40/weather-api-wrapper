@@ -20,41 +20,21 @@ jobs:
         shell: bash
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Git config
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-      - name: Read and bump version
-        id: version
-        run: |
-          version=$(cat VERSION)
-          echo "Current version: $version"
-
-          v_num=${version#v}
-          next_v="v$((v_num + 1))"
-          echo "NEXT_VERSION=$next_v" >> "$GITHUB_ENV"
-
-          echo $next_v > VERSION
-          git add VERSION
-          git commit -m "Bump version to $next_v"
-          git push
-
-      - name: Docker Login
+      - name: "Docker Login"
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build and push Docker image to ACR
+      - name: Build the frontend image and push it to ACR
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/aspcoresample:${{ env.NEXT_VERSION }}
+          tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/pushrun:${{ github.sha }}
           file: Dockerfile
           build-args: |
             WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
