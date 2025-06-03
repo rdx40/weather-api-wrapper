@@ -1,19 +1,14 @@
-//make web request to weatherapi.com
 using System.Net.Http;
-//working with JSON
 using System.Text.Json;
-//synchronous programming
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
 
-//defines a namespace for the service(to organize the code)
 namespace WeatherApiWrapper.Services
 {
       
     public class WeatherService
     {
-        //a private variable to hold the HttpClient instance
         private readonly HttpClient _httpClient;
 
         //constructor to initialize the HttpClient
