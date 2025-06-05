@@ -1,40 +1,38 @@
-name: docker_build_push_acr
+name: Build and Push .NET App
 
 on:
   push:
-    branches:
-      - master
-    paths-ignore:
-      - "README.md"
-      - "docs/**"
-  workflow_dispatch:
+    branches: [main]
 
 jobs:
-  docker_build_push_acr:
-    name: "Docker Build and Push to ACR"
+  build:
     runs-on: ubuntu-latest
-    environment: production
-
-    defaults:
-      run:
-        shell: bash
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: "Docker Login"
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}
+    - name: Set up .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x
 
-      - name: Build the frontend image and push it to ACR
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/pushrun:${{ github.sha }}
-          file: Dockerfile
-          build-args: |
-            WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release
+
+    - name: Publish
+      run: dotnet publish -c Release -o out
+
+    - name: Build Docker image
+      run: |
+        docker build \
+          --build-arg WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }} \
+          -t myorg/weatherapiwrapper:latest .
+
+    - name: Push Docker image
+      run: |
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        docker push myorg/weatherapiwrapper:latest
