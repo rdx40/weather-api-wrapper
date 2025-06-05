@@ -1,4 +1,4 @@
-name: Build and Push .NET App
+name: Build and Push The dotnet app
 
 on:
   push:
