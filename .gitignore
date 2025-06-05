@@ -45,3 +45,6 @@ publish/
 
 # Ignore secrets
 appsettings.Development.json
+
+
+*.cache
