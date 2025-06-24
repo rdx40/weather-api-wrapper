@@ -1,4 +1,4 @@
-name: Build and Push The dotnet app
+name: Build, Push and Deploy .NET Weather API
 
 on:
   push:
@@ -6,12 +6,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        shell: bash
 
     steps:
       - name: Checkout code
@@ -31,18 +27,39 @@ jobs:
       - name: Publish
         run: dotnet publish -c Release -o out
 
-      - name: Docker Login
+      - name: Docker Login to ACR
         uses: azure/docker-login@v1
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
-      - name: Build and Push Docker image
+      - name: Build and Push Docker Image
         uses: docker/build-push-action@v5
         with:
+          context: .
+          file: Dockerfile
           push: true
           tags: ${{ secrets.REGISTRY_LOGIN_SERVER }}/weatherapiwrapper:latest
-          file: Dockerfile
           build-args: |
             WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: cr_kr_crg
+          cluster-name: aksclusterrdx40
+
+      - name: Create secret in AKS (if not already present)
+        run: |
+          kubectl create secret generic weather-api-secret \
+            --from-literal=WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy to AKS
+        run: kubectl apply -f deployment.yaml

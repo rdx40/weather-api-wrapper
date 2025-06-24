@@ -1,26 +1,26 @@
+# Stage 1: Build
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-#Improve layer caching and rebuild time
+# Copy and restore dependencies
 COPY *.csproj ./
 RUN dotnet restore
 
-# Copy everything and restore dependencies
-COPY . .
-RUN dotnet publish -c Release -o out
+# Copy the rest and build
+COPY . ./
+RUN dotnet publish -c Release -o /app/out
 
+# Stage 2: Runtime
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 
-# Copy the published app from build stage
+# Optional: pass API key during build (injected via GitHub Actions)
+ARG WEATHER_API_KEY
+ENV WEATHER_API_KEY=${WEATHER_API_KEY}
+
 COPY --from=build /app/out ./
 
-# Expose port 80
 EXPOSE 80
-
-#Runtime environment variables
 ENV ASPNETCORE_ENVIRONMENT=Production
-ENV WEATHER_API_KEY=__REPLACE_AT_RUNTIME__
 
-# Run the app
 ENTRYPOINT ["dotnet", "WeatherAPIWrapper.dll"]

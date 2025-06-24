@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fF+1UTE9a0U=",
+  "dgSpecHash": "JTRINf7Juxk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ivan\\Desktop\\repos\\weather-api-wrapper\\WeatherAPIWrapper.csproj",
+  "projectFilePath": "C:\\Users\\Ivan\\Desktop\\code\\repos\\weather-api-wrapper\\WeatherAPIWrapper.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ivan\\.nuget\\packages\\microsoft.aspnetcore.openapi\\8.0.16\\microsoft.aspnetcore.openapi.8.0.16.nupkg.sha512",
     "C:\\Users\\Ivan\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
