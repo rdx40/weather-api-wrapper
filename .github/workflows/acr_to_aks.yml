@@ -1,0 +1,29 @@
+name: Deploy .NET Weather API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Set AKS Context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: cr_kr_crg
+          cluster-name: aksclusterrdx40
+
+      - name: Create secret in AKS (if not already present)
+        run: |
+          kubectl create secret generic weather-api-secret \
+            --from-literal=WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy to AKS
+        run: kubectl apply -f deployment.yaml
